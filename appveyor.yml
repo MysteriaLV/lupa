@@ -41,7 +41,7 @@ artifacts:
     name: Wheels
 
 deploy:
-  release: lupa-$(LUPA_VERSION)-luajit-$(LUAJIT_VERSION)_build-$(appveyor_build_version)
+  release: lupa-$(LUPA_VERSION)_luajit-$(LUAJIT_VERSION)_build-$(appveyor_build_version)
   provider: GitHub
   auth_token:
     secure: Mg6hwOigPz3G3y//LToGND67Vbp1kKRJu6grZbiJAOlRGcN/jVIFI3ePKXJySYh+
