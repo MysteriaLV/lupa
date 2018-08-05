@@ -6,9 +6,12 @@ environment:
   LUAJIT_VERSION: 2.0.5
 
 platform:
-  - x86
   - x64
-      
+  - x86
+
+matrix:
+  fast_finish: true
+  
 install:
  - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
  - ps: 7z e lupa-$env:LUPA_VERSION.tar.gz
@@ -22,7 +25,7 @@ build_script:
   - cd lupa-%LUPA_VERSION%
 
   - cd LuaJIT-%LUAJIT_VERSION%\src
-  - if "%PLATFORM%" EQU "X64" ( set VS_ARCH=amd64 )  
+  - if "%PLATFORM%" EQU "x64" ( set VS_ARCH=amd64 )  
   - call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %VS_ARCH%
   - msvcbuild.bat
   - cd ..\..
