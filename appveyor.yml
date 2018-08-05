@@ -1,9 +1,10 @@
 environment:
   matrix:
+    - CIBW_SKIP: "*-win32"
+      arch: amd64
     - CIBW_SKIP: "*-win_amd64"
       arch: x86
-    - CIBW_SKIP: "*-win32"
-      arch: x86_amd64
+
       
 install:
  - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-1.6.tar.gz" -OutFile lupa-1.6.tar.gz
