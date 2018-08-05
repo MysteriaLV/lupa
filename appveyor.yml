@@ -10,10 +10,6 @@ install:
  - ps: 7z e LuaJIT-2.0.5.tar.gz
  - ps: 7z x LuaJIT.2.0.5.tar -o"lupa-1.6"
 
-# - ps: Invoke-WebRequest -Uri "https://github.com/chemeris/msinttypes/archive/master.zip" -OutFile msinttypes.zip
-# - ps: 7z -bb e msinttypes.zip -o"lupa-1.6\lupa"
-
-
 build_script:
   - cd lupa-1.6
 
@@ -23,7 +19,7 @@ build_script:
   - cd ..\..
   
   - pip install cibuildwheel==0.9.4
-  - cibuildwheel --output-dir wheelhouse
+  - cibuildwheel --output-dir %APPVEYOR_BUILD_FOLDER%\wheelhouse
 artifacts:
   - path: "wheelhouse\\*.whl"
     name: Wheels
