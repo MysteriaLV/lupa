@@ -10,19 +10,19 @@ platform:
   - x64
       
 install:
- - ps: Invoke-WebRequest -Uri "https://github.com/scoder/lupa/archive/lupa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
+ - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lu-pa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
  - ps: 7z e lupa-$env:LUPA_VERSION.tar.gz
  - ps: 7z x lupa-$env:LUPA_VERSION.tar
  
  - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-$env:LUAJIT_VERSION.tar.gz" -OutFile LuaJIT-$env:LUAJIT_VERSION.tar.gz
  - ps: 7z e LuaJIT-$env:LUAJIT_VERSION.tar.gz
- - ps: 7z x LuaJIT.$env:LUAJIT_VERSION.tar -o"lupa-lupa-$env:LUPA_VERSION"
+ - ps: 7z x LuaJIT.$env:LUAJIT_VERSION.tar -o"lupa-$env:LUPA_VERSION"
 
 build_script:
-  - cd lupa-lupa-%LUPA_VERSION%
+  - cd lupa-%LUPA_VERSION%
 
   - cd LuaJIT-%LUAJIT_VERSION%\src
-  - if "%PLATFORM%" EQU "x64" ( set VS_ARCH=amd64 )  
+  - if "%PLATFORM%" EQU "X64" ( set VS_ARCH=amd64 )  
   - call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %VS_ARCH%
   - msvcbuild.bat
   - cd ..\..
@@ -30,7 +30,7 @@ build_script:
   - pip install cibuildwheel==0.9.4
   - echo PLATFORM=%PLATFORM%
   - if "%PLATFORM%" EQU "x86" ( set CIBW_SKIP=*-win_amd64 )
-  - if "%PLATFORM%" EQU "x64" ( set CIBW_SKIP=*-win32 )
+  - if "%PLATFORM%" EQU "X64" ( set CIBW_SKIP=*-win32 )
   - echo CIBW_SKIP=%CIBW_SKIP%
   - cibuildwheel --output-dir %APPVEYOR_BUILD_FOLDER%\wheelhouse
 artifacts:
