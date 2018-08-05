@@ -1,21 +1,21 @@
 install:
  - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-1.6.tar.gz" -OutFile lupa-1.6.tar.gz
  - ps: 7z e lupa-1.6.tar.gz
- - ps: 7z -bb x lupa-1.6.tar
+ - ps: 7z x lupa-1.6.tar
  
  - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-2.0.5.tar.gz" -OutFile LuaJIT-2.0.5.tar.gz
  - ps: 7z e LuaJIT-2.0.5.tar.gz
- - ps: 7z -bb x LuaJIT.2.0.5.tar -o"lupa-1.6"
+ - ps: 7z x LuaJIT.2.0.5.tar -o"lupa-1.6"
 
  - ps: Invoke-WebRequest -Uri "https://github.com/chemeris/msinttypes/archive/master.zip" -OutFile msinttypes.zip
- - ps: 7z e msinttypes.zip -o"lupa-1.6\lupa"
+ - ps: 7z -bb e msinttypes.zip -o"lupa-1.6\lupa"
 
 
 build_script:
   - cd lupa-1.6
 
   - cd LuaJIT-2.0.5\src
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
   - msvcbuild.bat
   - cd ..\..
   
