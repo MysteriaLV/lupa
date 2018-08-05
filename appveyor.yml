@@ -10,7 +10,7 @@ platform:
   - x64
       
 install:
- - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lu-pa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
+ - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
  - ps: 7z e lupa-$env:LUPA_VERSION.tar.gz
  - ps: 7z x lupa-$env:LUPA_VERSION.tar
  
