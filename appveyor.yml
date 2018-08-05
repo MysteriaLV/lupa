@@ -1,11 +1,13 @@
 install:
+ - cinst 7zip
  - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-1.6.tar.gz" -OutFile lupa-1.6.tar.gz
- - ps: Expand-Archive lupa-1.6.tar.gz
-
+ - ps: 7z x lupa-1.6.tar.gz
+ - ps: 7z x lupa-1.6.tar
+ 
  - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-2.0.5.tar.gz" -OutFile LuaJIT-2.0.5.tar.gz
- - ps: Expand-Archive LuaJIT-2.0.5.tar.gz -DestinationPath lupa-1.6
-
-
+ - ps: 7z x LuaJIT-2.0.5.tar.gz
+ - ps: 7z x LuaJIT-2.0.5.tar -o lupa-1.6
+ 
 
 build_script:
   - pip install cibuildwheel==0.9.4
