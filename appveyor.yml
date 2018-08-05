@@ -7,8 +7,8 @@ install:
  - ps: 7z e LuaJIT-2.0.5.tar.gz
  - ps: 7z x LuaJIT.2.0.5.tar -o"lupa-1.6"
 
- - ps: Invoke-WebRequest -Uri "https://github.com/chemeris/msinttypes/archive/master.zip" -OutFile msinttypes.zip
- - ps: 7z -bb e msinttypes.zip -o"lupa-1.6\lupa"
+# - ps: Invoke-WebRequest -Uri "https://github.com/chemeris/msinttypes/archive/master.zip" -OutFile msinttypes.zip
+# - ps: 7z -bb e msinttypes.zip -o"lupa-1.6\lupa"
 
 
 build_script:
