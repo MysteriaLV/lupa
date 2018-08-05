@@ -1,10 +1,6 @@
-environment:
-  matrix:
-    - CIBW_SKIP: "*-win32"
-      arch: amd64
-    - CIBW_SKIP: "*-win_amd64"
-      arch: x86
-
+platform:
+  - x86
+  - x64
       
 install:
  - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-1.6.tar.gz" -OutFile lupa-1.6.tar.gz
@@ -19,12 +15,24 @@ build_script:
   - cd lupa-1.6
 
   - cd LuaJIT-2.0.5\src
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" %arch%
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+  - setenv /release /"%platform%"
   - msvcbuild.bat
   - cd ..\..
   
   - pip install cibuildwheel==0.9.4
+  - if "%platform%" EQU "x86" ( set CIBW_SKIP="*-win_amd64" )
+  - if "%platform%" EQU "x64" ( set CIBW_SKIP="*-win32" )
+  - echo CIBW_SKIP=%CIBW_SKIP%
   - cibuildwheel --output-dir %APPVEYOR_BUILD_FOLDER%\wheelhouse
 artifacts:
   - path: "wheelhouse\\*.whl"
     name: Wheels
+
+deploy:
+  release: lupa-wheels-v$(appveyor_build_version)
+  provider: GitHub
+  auth_token:
+    secure: Mg6hwOigPz3G3y//LToGND67Vbp1kKRJu6grZbiJAOlRGcN/jVIFI3ePKXJySYh+
+  on:
+    branch: master                 # release from master branch only
