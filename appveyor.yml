@@ -16,10 +16,10 @@ install:
  
  - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-$env:LUAJIT_VERSION.tar.gz" -OutFile LuaJIT-$env:LUAJIT_VERSION.tar.gz
  - ps: 7z e LuaJIT-$env:LUAJIT_VERSION.tar.gz
- - ps: 7z x LuaJIT.$env:LUAJIT_VERSION.tar -o"lupa-$env:LUPA_VERSION"
+ - ps: 7z x LuaJIT.$env:LUAJIT_VERSION.tar -o"lupa-lupa-$env:LUPA_VERSION"
 
 build_script:
-  - cd lupa-%LUPA_VERSION%
+  - cd lupa-lupa-%LUPA_VERSION%
 
   - cd LuaJIT-%LUAJIT_VERSION%\src
   - if "%PLATFORM%" EQU "x64" ( set VS_ARCH=amd64 )  
