@@ -1,34 +1,36 @@
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+
+environment:
+  LUPA_VERSION: 1.6
+  LUAJIT_VERSION: 2.0.5
+
 platform:
   - x86
   - x64
       
 install:
-
-# - dir "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"
-# - dir "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"
-# - call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_amd64
-
-# - call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64 
- - ps: Invoke-WebRequest -Uri "https://files.pythonhosted.org/packages/fa/a5/20e320701292364fa6d1f99a76ae75119d31ee2c8f168637cef8ffc5a977/lupa-1.6.tar.gz" -OutFile lupa-1.6.tar.gz
- - ps: 7z e lupa-1.6.tar.gz
- - ps: 7z x lupa-1.6.tar
+ - ps: Invoke-WebRequest -Uri "https://github.com/scoder/lupa/archive/lupa-$env:LUPA_VERSION.tar.gz" -OutFile lupa-$env:LUPA_VERSION.tar.gz
+ - ps: 7z e lupa-$env:LUPA_VERSION.tar.gz
+ - ps: 7z x lupa-$env:LUPA_VERSION.tar
  
- - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-2.0.5.tar.gz" -OutFile LuaJIT-2.0.5.tar.gz
- - ps: 7z e LuaJIT-2.0.5.tar.gz
- - ps: 7z x LuaJIT.2.0.5.tar -o"lupa-1.6"
+ - ps: Invoke-WebRequest -Uri "http://luajit.org/download/LuaJIT-$env:LUAJIT_VERSION.tar.gz" -OutFile LuaJIT-$env:LUAJIT_VERSION.tar.gz
+ - ps: 7z e LuaJIT-$env:LUAJIT_VERSION.tar.gz
+ - ps: 7z x LuaJIT.$env:LUAJIT_VERSION.tar -o"lupa-$env:LUPA_VERSION"
 
 build_script:
-  - cd lupa-1.6
+  - cd lupa-%LUPA_VERSION%
 
-  - cd LuaJIT-2.0.5\src
-  - if "%platform%" EQU "x64" ( set VS_ARCH=amd64 )  
+  - cd LuaJIT-%LUAJIT_VERSION%\src
+  - if "%PLATFORM%" EQU "x64" ( set VS_ARCH=amd64 )  
   - call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %VS_ARCH%
   - msvcbuild.bat
   - cd ..\..
   
   - pip install cibuildwheel==0.9.4
-  - if "%platform%" EQU "x86" ( set CIBW_SKIP=*-win_amd64 )
-  - if "%platform%" EQU "x64" ( set CIBW_SKIP=*-win32 )
+  - echo PLATFORM=%PLATFORM%
+  - if "%PLATFORM%" EQU "x86" ( set CIBW_SKIP=*-win_amd64 )
+  - if "%PLATFORM%" EQU "x64" ( set CIBW_SKIP=*-win32 )
   - echo CIBW_SKIP=%CIBW_SKIP%
   - cibuildwheel --output-dir %APPVEYOR_BUILD_FOLDER%\wheelhouse
 artifacts:
@@ -36,7 +38,7 @@ artifacts:
     name: Wheels
 
 deploy:
-  release: lupa-wheels-v$(appveyor_build_version)
+  release: lupa-$(LUPA_VERSION)-luajit-$(LUAJIT_VERSION)_build-$(appveyor_build_version)
   provider: GitHub
   auth_token:
     secure: Mg6hwOigPz3G3y//LToGND67Vbp1kKRJu6grZbiJAOlRGcN/jVIFI3ePKXJySYh+
